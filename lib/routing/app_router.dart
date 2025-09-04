@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:go_router/go_router.dart';
 
+import '../domain/entities/job.dart';
 import '../presentation/screens/favorites_screen.dart';
 import '../presentation/screens/job_details_screen.dart';
 import '../presentation/screens/jobs_screen.dart';
@@ -21,7 +24,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/job-details',
       name: 'job-details',
-      builder: (context, state) => const JobDetailsScreen(),
+      builder: (context, state) {
+        final job = state.extra as Job;
+        return JobDetailsScreen(job: job);
+      },
     ),
     GoRoute(
       path: '/favorites',
