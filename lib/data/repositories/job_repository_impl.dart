@@ -11,6 +11,7 @@ class JobRepositoryImpl implements JobRepository {
   @override
   Future<List<Job>> fetchJobs() async {
     final jobs = await _apiService.fetchJobs();
-    return jobs.toList();
+    print("JobRepositoryImpl ------------------> ${jobs.length}");
+    return jobs.map((job) => job as Job).toList();
   }
 }

@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pacifickode/presentation/providers/job_providers.dart';
 import 'package:pacifickode/routing/app_router.dart';
 
 import 'core/providers/theme_provider.dart';
 import 'core/theme/app_theme.dart';
+import 'data/datasource/api_service.dart';
+import 'data/repositories/job_repository_impl.dart';
 
 void main() {
-  runApp(const MyApp());
+  final apiService = ApiService();
+  final jobRepository = JobRepositoryImpl(apiService);
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        jobNotifierProvider.overrideWith((ref) => JobNotifier(jobRepository)),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {

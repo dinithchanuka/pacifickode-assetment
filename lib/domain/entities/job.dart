@@ -6,7 +6,7 @@ class Job {
   final String type;
   final String description;
   final String salary;
-  final bool isFavorite;
+  bool isFavorite;
 
   Job({
     required this.id,
