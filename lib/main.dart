@@ -6,6 +6,7 @@ import 'package:pacifickode/routing/app_router.dart';
 import 'core/providers/theme_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'data/datasource/api_service.dart';
+import 'data/datasource/local_data_source.dart';
 import 'data/repositories/job_repository_impl.dart';
 
 void main() {
@@ -15,7 +16,9 @@ void main() {
   runApp(
     ProviderScope(
       overrides: [
-        jobNotifierProvider.overrideWith((ref) => JobNotifier(jobRepository)),
+        jobNotifierProvider.overrideWith(
+          (ref) => JobNotifier(jobRepository, LocalDataSource()),
+        ),
       ],
       child: const MyApp(),
     ),

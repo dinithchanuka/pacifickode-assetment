@@ -1,20 +1,37 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/datasource/local_data_source.dart';
 import '../../domain/entities/job.dart';
 import '../../domain/repositories/job_repository.dart';
 import 'job_state.dart';
 
 class JobNotifier extends StateNotifier<JobState> {
   final JobRepository jobRepository;
+  final LocalDataSource localDataSource;
 
-  JobNotifier(this.jobRepository) : super(JobState());
+  JobNotifier(this.jobRepository, this.localDataSource) : super(JobState());
 
   Future<void> fetchJobs() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
       final jobs = await jobRepository.fetchJobs();
-      state = state.copyWith(jobs: jobs, isLoading: false);
+
+      final favIds = await localDataSource.getFavoriteIds();
+
+      for (final job in jobs) {
+        if (favIds.contains(job.id)) {
+          job.isFavorite = true;
+        }
+      }
+
+      final favJobs = jobs.where((favJobs) => favJobs.isFavorite).toList();
+
+      state = state.copyWith(
+        jobs: jobs,
+        favoriteJobs: favJobs,
+        isLoading: false,
+      );
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
@@ -36,6 +53,20 @@ class JobNotifier extends StateNotifier<JobState> {
           )
           .toList();
     }
+  }
+
+  Future<void> toggleFavorite(Job job) async {
+    job.isFavorite = !job.isFavorite;
+
+    final updatedJob = [...state.favoriteJobs];
+    final updatedFavJobs = updatedJob
+        .where((favJobs) => favJobs.isFavorite)
+        .toList();
+
+    state = state.copyWith(jobs: updatedJob, favoriteJobs: updatedFavJobs);
+
+    final ids = updatedJob.map((job) => job.id).toList();
+    await localDataSource.saveFavoriteIds(ids);
   }
 }
 
