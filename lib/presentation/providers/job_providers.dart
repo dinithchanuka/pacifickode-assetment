@@ -58,7 +58,7 @@ class JobNotifier extends StateNotifier<JobState> {
   Future<void> toggleFavorite(Job job) async {
     job.isFavorite = !job.isFavorite;
 
-    final updatedJob = [...state.favoriteJobs];
+    final updatedJob = [...state.jobs];
     final updatedFavJobs = updatedJob
         .where((favJobs) => favJobs.isFavorite)
         .toList();

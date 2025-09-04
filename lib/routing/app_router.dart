@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:go_router/go_router.dart';
 
 import '../domain/entities/job.dart';

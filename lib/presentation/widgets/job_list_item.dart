@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../domain/entities/job.dart';
+import '../providers/job_providers.dart';
 
-class JobListItem extends StatelessWidget {
+class JobListItem extends ConsumerWidget {
   final Job job;
 
   const JobListItem({required this.job, super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () => context.push('/job-details', extra: job),
       child: Card(
@@ -33,10 +35,15 @@ class JobListItem extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              Icon(
-                job.isFavorite
-                    ? Icons.favorite_rounded
-                    : Icons.favorite_border_rounded,
+              IconButton(
+                onPressed: () =>
+                    ref.read(jobNotifierProvider.notifier).toggleFavorite(job),
+                icon: Icon(
+                  job.isFavorite
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_border_rounded,
+                  color: job.isFavorite ? Colors.purpleAccent : null,
+                ),
               ),
             ],
           ),
