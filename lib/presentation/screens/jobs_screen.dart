@@ -26,6 +26,7 @@ class _JobsScreenState extends ConsumerState<JobsScreen> {
   @override
   Widget build(BuildContext context) {
     final jobState = ref.watch(jobNotifierProvider);
+    final jobNotifier = ref.read(jobNotifierProvider.notifier);
 
     return Scaffold(
       appBar: CustomAppBar(title: AppStrings.labelJobs),
@@ -41,9 +42,9 @@ class _JobsScreenState extends ConsumerState<JobsScreen> {
                 : jobState.errorMessage != null
                 ? Center(child: Text(jobState.errorMessage!))
                 : ListView.builder(
-                    itemCount: jobState.favoriteJobs.length,
+                    itemCount: jobNotifier.filteredJobs.length,
                     itemBuilder: (context, index) {
-                      final job = jobState.favoriteJobs[index];
+                      final job = jobNotifier.filteredJobs[index];
                       return JobListItem(job: job);
                     },
                   ),

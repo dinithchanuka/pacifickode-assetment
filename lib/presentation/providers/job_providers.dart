@@ -65,7 +65,7 @@ class JobNotifier extends StateNotifier<JobState> {
 
     state = state.copyWith(jobs: updatedJob, favoriteJobs: updatedFavJobs);
 
-    final ids = updatedJob.map((job) => job.id).toList();
+    final ids = updatedFavJobs.map((job) => job.id).toList();
     await localDataSource.saveFavoriteIds(ids);
   }
 }

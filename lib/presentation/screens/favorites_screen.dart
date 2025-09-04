@@ -12,7 +12,6 @@ class FavoritesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jobState = ref.watch(jobNotifierProvider);
-    final jobNotifier = ref.read(jobNotifierProvider.notifier);
 
     return Scaffold(
       appBar: CustomAppBar(title: AppStrings.labelFavJobs),
@@ -21,9 +20,9 @@ class FavoritesScreen extends ConsumerWidget {
           : jobState.errorMessage != null
           ? Center(child: Text(jobState.errorMessage!))
           : ListView.builder(
-              itemCount: jobNotifier.filteredJobs.length,
+              itemCount: jobState.favoriteJobs.length,
               itemBuilder: (context, index) {
-                final job = jobNotifier.filteredJobs[index];
+                final job = jobState.favoriteJobs[index];
                 return JobListItem(job: job);
               },
             ),
