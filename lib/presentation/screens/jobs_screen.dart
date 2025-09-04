@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pacifickode/core/constants/searchType.dart';
 import 'package:pacifickode/core/constants/strings.dart';
 import 'package:pacifickode/presentation/widgets/job_list_item.dart';
@@ -25,7 +26,6 @@ class _JobsScreenState extends ConsumerState<JobsScreen> {
   @override
   Widget build(BuildContext context) {
     final jobState = ref.watch(jobNotifierProvider);
-    final jobNotifier = ref.read(jobNotifierProvider.notifier);
 
     return Scaffold(
       appBar: CustomAppBar(title: AppStrings.labelJobs),
@@ -41,12 +41,22 @@ class _JobsScreenState extends ConsumerState<JobsScreen> {
                 : jobState.errorMessage != null
                 ? Center(child: Text(jobState.errorMessage!))
                 : ListView.builder(
-                    itemCount: jobNotifier.filteredJobs.length,
+                    itemCount: jobState.favoriteJobs.length,
                     itemBuilder: (context, index) {
-                      final job = jobNotifier.filteredJobs[index];
+                      final job = jobState.favoriteJobs[index];
                       return JobListItem(job: job);
                     },
                   ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 16, right: 16, bottom: 24, top: 8),
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                context.push('/favorites');
+              },
+              child: Text(AppStrings.labelFavJobs),
+            ),
           ),
         ],
       ),
