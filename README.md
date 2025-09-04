@@ -4,13 +4,33 @@ Practicle Test
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. flutter pub get
+2. flutter run
 
-A few resources to get you started if this is your first Flutter project:
+## Architecture
+    - Clean Architecture
+        - Separation of Concerns: Each layer has a specific responsibility
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+        - Domain: Business logic
+            * Entities
+            * Repositories
+        - Data:
+            * Datasources : API services, Local data source
+            * Models
+            * Repositories
+        - Presentation:
+            * Providers
+            * Screens
+            * Widgets : Reusable Components
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+        - Routing: Navigation Handler
+        - Core
+            * Constants : Strings, enums
+            * Providers
+
+## State Management
+    - riverpod
+        Used providers, state notifiers to manage states
+
+## Time Taken
+    - 4h - 5h

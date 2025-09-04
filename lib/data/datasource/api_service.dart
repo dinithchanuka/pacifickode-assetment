@@ -11,8 +11,12 @@ class ApiService {
     final response = await http.get(Uri.parse(baseUrl));
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((item) => JobModel.fromJson(item)).toList();
+      try{
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((item) => JobModel.fromJson(item)).toList();
+      }catch(e){
+        throw Exception('Something wrong');
+      }
     } else {
       throw Exception('Failed to load jobs');
     }
