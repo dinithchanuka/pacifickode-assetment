@@ -7,7 +7,7 @@ import '../presentation/screens/jobs_screen.dart';
 import '../presentation/screens/splash_screen.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/jobs',
+  initialLocation: '/splash',
   routes: [
     GoRoute(
       path: '/splash',
